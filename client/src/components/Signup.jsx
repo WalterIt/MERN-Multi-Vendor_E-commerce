@@ -1,13 +1,14 @@
 import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../styles/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
-// import axios from "axios";
-// import { server } from "../../server";
-// import { toast } from "react-toastify";
+import axios from "axios";
+import { server } from "../server";
+import { toast } from "react-toastify";
 
 const Singup = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -20,25 +21,31 @@ const Singup = () => {
   };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-    // const config = { headers: { "Content-Type": "multipart/form-data" } };
-    // const newForm = new FormData();
-    // newForm.append("file", avatar);
-    // newForm.append("name", name);
-    // newForm.append("email", email);
-    // newForm.append("password", password);
-    // axios
-    //   .post(`${server}/user/create-user`, newForm, config)
-    //   .then((res) => {
-    //     toast.success(res.data.message);
-    //     setName("");
-    //     setEmail("");
-    //     setPassword("");
-    //     setAvatar();
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error.response.data.message);
-    //   });
+    e.preventDefault();
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const newForm = new FormData();
+    newForm.append("file", avatar);
+    newForm.append("name", name);
+    newForm.append("email", email);
+    newForm.append("password", password);
+    axios
+      .post(`${server}/user/create-user`, newForm, config)
+      .then((res) => {
+        if (res.data.success) {
+          // console.log(res.data);
+          toast.success(res.data.message);
+          setName("");
+          setEmail("");
+          setPassword("");
+          setAvatar();
+
+          navigate("/login");
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+        console.log(error.response?.data);
+      });
   };
 
   return (

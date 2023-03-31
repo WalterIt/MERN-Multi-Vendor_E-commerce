@@ -1,28 +1,36 @@
-import express from "express";
-import dotenv from "dotenv";
-import ErrorHandler from "./utils/ErrorHandler.js";
-import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-
+const express = require("express");
+const ErrorHandler = require("./middleware/error");
 const app = express();
-dotenv.config();
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
 app.use(express.json());
 app.use(cookieParser());
-app.use("/backend", express.static("uploads"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use("/backend/", express.static("uploads"));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-// CONFIG
+// config
 if (process.env.NODE_ENV !== "PRODUCTION") {
-  dotenv.config({
+  require("dotenv").config({
     path: "./config/.env",
   });
 }
 
-// IMPORT
-import user from "./controller/user.js";
-app.use("/user", user);
+// import routes
+const user = require("./controller/user");
+// const shop = require("./controller/shop");
 
-// FOR ERRORHANDLING
+app.use("/user", user);
+// app.use("/shop", shop);
+
+// it's for ErrorHandling
 app.use(ErrorHandler);
 
-export default app;
+module.exports = app;
