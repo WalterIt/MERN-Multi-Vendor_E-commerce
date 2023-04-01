@@ -1,13 +1,24 @@
 import.meta.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./pages/LoginPage.jsx";
 import "./App.css";
 import SignupPage from "./pages/SignupPage.jsx";
 import ActivationPage from "./pages/ActivationPage.jsx";
+import axios from "axios";
+import { server } from "./server.js";
+import { useEffect } from "react";
+import store from "./redux/store.js";
+import { loadUser } from "./redux/actions/user.js";
+
+axios.defaults.withCredentials = true;
 
 function App() {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
