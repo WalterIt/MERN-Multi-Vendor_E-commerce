@@ -4,6 +4,8 @@ import Categories from "../components/Categories";
 import BestDeals from "../components/BestDeals";
 import FeaturedProduct from "../components/FeaturedProduct";
 import Events from "../components/Events";
+import Sponsored from "../components/Sponsored";
+import Footer from "../components/layout/Footer";
 
 const HomePage = () => {
   return (
@@ -14,6 +16,8 @@ const HomePage = () => {
       <BestDeals />
       <Events />
       <FeaturedProduct />
+      <Sponsored />
+      <Footer />
     </div>
   );
 };
