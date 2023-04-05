@@ -48,6 +48,7 @@ const Categories = () => {
                     src={item.image_Url}
                     alt={item.title}
                     className="w-[120px] object-cover "
+                    loading="lazy"
                   />
                 </div>
               );

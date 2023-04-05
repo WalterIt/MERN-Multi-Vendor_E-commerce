@@ -15,8 +15,6 @@ const ProductCard = ({ data }) => {
   const [click, setClick] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(data);
-
   const productName = data.name.replace(/\s+/g, "-");
 
   return (
@@ -28,6 +26,7 @@ const ProductCard = ({ data }) => {
             src={data.image_Url[0].url}
             alt={data.name}
             className="w-full h-[170px] object-contain"
+            loading="lazy"
           />
         </Link>
         <Link to="/">
