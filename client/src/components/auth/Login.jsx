@@ -1,9 +1,9 @@
 import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import styles from "../styles/styles";
+import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { server } from "../server.js";
+import { server } from "../../server.js";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -23,7 +23,7 @@ const Login = () => {
       .then((res) => {
         toast.success("Login Success!");
         navigate("/");
-        // window.location.reload(true);
+        window.location.reload();
       })
       .catch((err) => {
         toast.error(err.response?.data?.message);

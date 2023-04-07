@@ -1,11 +1,18 @@
 import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import styles from "../styles/styles";
+import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
-import { server } from "../server";
+import { server } from "../../server";
 import { toast } from "react-toastify";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../../firebase";
 
 const Singup = () => {
   const navigate = useNavigate();
@@ -14,17 +21,56 @@ const Singup = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
+  const [avatarLink, setAvatarLink] = useState("");
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
+    const fileName = new Date().getTime() + file.name;
+    // console.log(fileName);
     setAvatar(file);
+
+    const storage = getStorage(app);
+    const storageRef = ref(storage, fileName);
+
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+        }
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          // console.log("File avaible at: ", downloadURL);
+          setAvatarLink(downloadURL);
+        });
+      }
+    );
   };
+
+  // console.log(avatarLink);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     const newForm = new FormData();
-    newForm.append("file", avatar);
+    newForm.append("avatar", avatarLink);
     newForm.append("name", name);
     newForm.append("email", email);
     newForm.append("password", password);
