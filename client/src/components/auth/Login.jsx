@@ -1,10 +1,12 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../server.js";
 import { toast } from "react-toastify";
+import store from "../../redux/store";
+import { loadUser } from "../../redux/actions/user";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,8 +24,10 @@ const Login = () => {
       })
       .then((res) => {
         toast.success("Login Success!");
+        store.dispatch(loadUser());
         navigate("/");
-        window.location.reload();
+
+        // window.location.reload();
       })
       .catch((err) => {
         toast.error(err.response?.data?.message);

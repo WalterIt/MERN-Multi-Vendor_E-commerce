@@ -1,5 +1,4 @@
-// import.meta.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./pages/auth/LoginPage";
@@ -13,27 +12,26 @@ import EventsPage from "./pages/EventsPage";
 import FAQPage from "./pages/FAQPage";
 import Layout from "./pages/Layout";
 import axios from "axios";
-import { useEffect } from "react";
-import store from "./redux/store";
-import { loadUser } from "./redux/actions/user";
 import { useSelector } from "react-redux";
 
 axios.defaults.withCredentials = true;
 
 function App() {
-  const { loading } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
+  const { isAuthenticated, loading } = useSelector((state) => state.user);
 
   return (
     <>
       {loading ? null : (
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/sign-up" element={<SignupPage />} />
+            <Route
+              path="/login"
+              element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
+            />
+            <Route
+              path="/sign-up"
+              element={isAuthenticated ? <Navigate to="/" /> : <SignupPage />}
+            />
             <Route
               path="/activation/:activation_token"
               element={<ActivationPage />}
