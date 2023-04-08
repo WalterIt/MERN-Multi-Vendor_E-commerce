@@ -8,6 +8,8 @@ import Sponsored from "../components/Sponsored";
 import Footer from "../components/layout/Footer";
 
 const HomePage = () => {
+  window.scrollTo(0, 0);
+
   return (
     <div>
       <Hero />

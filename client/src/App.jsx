@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import BestSellingPage from "./pages/BestSellingPage";
 import ActivationPage from "./pages/ActivationPage";
 import ProductsPage from "./pages/ProductsPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 import EventsPage from "./pages/EventsPage";
 import FAQPage from "./pages/FAQPage";
 import Layout from "./pages/Layout";
@@ -39,6 +40,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/products" element={<ProductsPage />} />
+              <Route path="/product/:name" element={<ProductDetailsPage />} />
               <Route path="/best-selling" element={<BestSellingPage />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/faq" element={<FAQPage />} />
