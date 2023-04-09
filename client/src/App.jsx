@@ -12,54 +12,63 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import EventsPage from "./pages/EventsPage";
 import FAQPage from "./pages/FAQPage";
 import Layout from "./pages/Layout";
+import ProfilePage from "./pages/ProfilePage";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "./ProtectedRoute";
 
 axios.defaults.withCredentials = true;
 
 function App() {
   const { isAuthenticated, loading } = useSelector((state) => state.user);
+  console.log(isAuthenticated);
 
   return (
     <>
-      {loading ? null : (
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/login"
-              element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
-            />
-            <Route
-              path="/sign-up"
-              element={isAuthenticated ? <Navigate to="/" /> : <SignupPage />}
-            />
-            <Route
-              path="/activation/:activation_token"
-              element={<ActivationPage />}
-            />
-            <Route element={<Layout />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/product/:name" element={<ProductDetailsPage />} />
-              <Route path="/best-selling" element={<BestSellingPage />} />
-              <Route path="/events" element={<EventsPage />} />
-              <Route path="/faq" element={<FAQPage />} />
-            </Route>
-          </Routes>
-          <ToastContainer
-            position="bottom-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
           />
-        </BrowserRouter>
-      )}
+          <Route
+            path="/sign-up"
+            element={isAuthenticated ? <Navigate to="/" /> : <SignupPage />}
+          />
+          <Route
+            path="/activation/:activation_token"
+            element={<ActivationPage />}
+          />
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/product/:name" element={<ProductDetailsPage />} />
+            <Route path="/best-selling" element={<BestSellingPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+        </Routes>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+      </BrowserRouter>
     </>
   );
 }

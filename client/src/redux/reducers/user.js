@@ -4,6 +4,8 @@ const initialState = {
   isAuthenticated: false,
 };
 
+// TODO: Implement Persistence of Data
+
 export const userReducer = createReducer(initialState, {
   LoadUserRequest: (state) => {
     state.loading = true;
