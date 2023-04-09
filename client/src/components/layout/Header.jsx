@@ -15,6 +15,7 @@ import Navbar from "./Navbar.jsx";
 import { useSelector } from "react-redux";
 import Cart from "../Cart";
 import Wishlist from "../Wishlist";
+import { RxCross1 } from "react-icons/rx";
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -24,6 +25,7 @@ const Header = ({ activeHeading }) => {
   const [dropDown, setDropDown] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
+  const [open, setOpen] = useState(false);
 
   // console.log(user);
 
@@ -97,7 +99,7 @@ const Header = ({ activeHeading }) => {
             ) : null}
           </div>
           <div className={`${styles.button}`}>
-            <Link to="/seller">
+            <Link to="/create-shop">
               <h1 className="text-[#fff] flex items-center">
                 Become a Seller <IoIosArrowForward className="ml-1" />
               </h1>
@@ -194,6 +196,138 @@ const Header = ({ activeHeading }) => {
             {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
           </div>
         </div>
+      </div>
+
+      {/* MOBILE HEADER  */}
+      <div
+        className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10 " : null
+        }  w-full h-[60px] fixed  bg-white z-50 top-0 left-0 800px:hidden`}
+      >
+        <div className="w-full flex items-center justify-between">
+          <div>
+            <BiMenuAltLeft
+              size={40}
+              className="ml-4"
+              onClick={() => setOpen(true)}
+            />
+          </div>
+          <div>
+            <Link to="/">
+              <img
+                src="https://shopo.quomodothemes.website/assets/images/logo.svg"
+                alt="logo"
+                className="mt-3 cursor-pointer"
+              />
+            </Link>
+          </div>
+          <div>
+            <div className="relative mr-[20px] ">
+              <AiOutlineShoppingCart size={30} />
+              <span className="absolute right-0 top-[-5px] rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center ">
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/*  HEADER SIDEBAR */}
+        {open && (
+          <div
+            className={` fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0 `}
+          >
+            <div className="fixed w-[60%] bg-white h-screen top-0 left-0 z-10 overflow-y-scroll ">
+              <div className="w-full flex justify-between pr-3">
+                <div>
+                  <div className="relative mr-[15px] ">
+                    <AiOutlineHeart size={30} className="mt-5 ml-3" />
+                    <span className="absolute right-0 top-[-5px] rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center ">
+                      0
+                    </span>
+                  </div>
+                </div>
+                <RxCross1
+                  size={25}
+                  className="ml-4 mt-5"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+
+              <div className="my-8 w-[92%] relative  m-auto h-[40px] ">
+                <input
+                  type="text"
+                  placeholder="Search Product..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-sm"
+                />
+                <AiOutlineSearch
+                  size={25}
+                  className="absolute right-2 top-2 cursor-pointer"
+                />
+                {searchData && (
+                  <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+                    {searchData &&
+                      searchData.map((item, i) => {
+                        const data = item.name;
+
+                        const productName = data.replace(/\s+/g, "-");
+
+                        return (
+                          <Link to={`/product/${productName}`}>
+                            <div className="w-full flex items-start-py-3">
+                              <img
+                                src={item.image_Url[0].url}
+                                alt={data}
+                                className="w-[40px] h-[40px] mr-[10px]"
+                              />
+                              <h1>{data}</h1>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                  </div>
+                )}
+              </div>
+              <Navbar active={activeHeading} />
+              <div className={`${styles.button} ml-4 !rounded-[4px] `}>
+                <Link to="/create-shop">
+                  <h1 className="text-[#fff] flex items-center">
+                    Become a Seller <IoIosArrowForward className="ml-2" />
+                  </h1>
+                </Link>
+              </div>
+              <div className="flex w-full justify-center mt-8">
+                {isAuthenticated ? (
+                  <div>
+                    <Link to="/profile">
+                      <img
+                        src={user.avatar}
+                        alt=""
+                        className="w-[75px] h-[75px] rounded-full border-[3px] border-[#0eae88]"
+                      />
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="text-[18px] pr-[10px] text-[#000000b7]"
+                    >
+                      Login /
+                    </Link>
+                    <Link
+                      to="/sign-up"
+                      className="text-[18px] text-[#000000b7]"
+                    >
+                      Sign up
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

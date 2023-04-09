@@ -12,7 +12,7 @@ const BestSellingPage = () => {
     const products =
       productData && productData.sort((a, b) => b.total_sell - a.total_sell);
     setData(products);
-    // window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }, []);
 
   return (

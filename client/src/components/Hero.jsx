@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div
-      className={`relative min-h-[70vh] 800px:min-h-[80vh] w-full bg-no-repeat ${styles.noramlFlex}`}
+      className={`relative mt-[20%] pt-2 min-h-[70vh] 800px:mt-0 800px:min-h-[80vh] w-full bg-no-repeat ${styles.noramlFlex}`}
       style={{
         backgroundImage:
           "url(https://themes.rslahmed.dev/rafcart/assets/images/banner-2.jpg)",
@@ -24,7 +24,7 @@ const Hero = () => {
           <br /> aliquam deserunt officia. Dolorum saepe nulla provident.
         </p>
         <Link to="/products" className="inline-block">
-          <div className={`${styles.button} mt-5`}>
+          <div className={`${styles.button} ml-12 mt-5`}>
             <span className="text-[#fff] font-[Poppins] text-[18px]">
               Shop Now
             </span>

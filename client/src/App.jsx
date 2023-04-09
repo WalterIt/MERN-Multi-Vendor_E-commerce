@@ -13,6 +13,8 @@ import EventsPage from "./pages/EventsPage";
 import FAQPage from "./pages/FAQPage";
 import Layout from "./pages/Layout";
 import ProfilePage from "./pages/ProfilePage";
+import CreateShopPage from "./pages/auth/CreateShopPage";
+import LoginShopPage from "./pages/auth/LoginShopPage";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
@@ -21,7 +23,10 @@ axios.defaults.withCredentials = true;
 
 function App() {
   const { isAuthenticated, loading } = useSelector((state) => state.user);
-  console.log(isAuthenticated);
+  const { isSellerAuthenticated, seller } = useSelector(
+    (state) => state.seller
+  );
+  // console.log(isSellerAuthenticated, seller);
 
   return (
     <>
@@ -39,6 +44,8 @@ function App() {
             path="/activation/:activation_token"
             element={<ActivationPage />}
           />
+          <Route path="/create-shop" element={<CreateShopPage />} />
+          <Route path="/login-shop" element={<LoginShopPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />

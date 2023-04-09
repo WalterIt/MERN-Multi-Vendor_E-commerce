@@ -8,6 +8,8 @@ const ProductDetailsPage = () => {
   const [data, setData] = useState(null);
   const productName = name?.replace(/-/g, " ");
 
+  window.scrollTo(0, 0);
+
   useEffect(() => {
     const data = productData.find((item) => item.name === productName);
     setData(data);

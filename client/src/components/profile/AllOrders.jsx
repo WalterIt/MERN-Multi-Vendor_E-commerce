@@ -22,7 +22,7 @@ const AllOrders = () => {
   ];
 
   const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 250, flex: 2 },
+    { field: "id", headerName: "Order ID", minWidth: 150, flex: 1 },
 
     {
       field: "status",

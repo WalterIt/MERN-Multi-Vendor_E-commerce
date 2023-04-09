@@ -6,10 +6,12 @@ import { useState } from "react";
 const ProfilePage = () => {
   const [active, setActive] = useState(1);
 
+  window.scrollTo(0, 0);
+
   return (
     <div>
       <div className={`${styles.section} flex bg-[#f5f5f5] py-10 `}>
-        <div className="w-[240px] ">
+        <div className="w-[85px] 800px:w-[240px]  mt-[15%] ">
           <ProfileSidebar active={active} setActive={setActive} />
         </div>
         <ProfileContent active={active} />
