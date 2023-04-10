@@ -323,7 +323,7 @@ export const productData = [
     category: "Mobile & Tablets",
   },
   {
-    id: 1,
+    id: 3,
     category: "Computers and Laptop",
     name: "MacBook pro M2 chipset 256gb ssd 8gb ram space gray color with apple 1 year warranty",
     description:

@@ -14,7 +14,7 @@ const LoginShopPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const { isSellerAuthenticated, seller } = useSelector(
+  const { isSellerAuthenticated, seller, isLoading } = useSelector(
     (state) => state.seller
   );
 
@@ -29,6 +29,8 @@ const LoginShopPage = () => {
       .then((res) => {
         toast.success("Login Success!");
         store.dispatch(loadSeller());
+        navigate("/dashboard");
+
         // window.location.reload();
       })
       .catch((err) => {
@@ -39,9 +41,10 @@ const LoginShopPage = () => {
 
   useEffect(() => {
     if (isSellerAuthenticated) {
-      navigate(`/shop/${seller._id}`);
+      navigate("/dashboard");
+      // navigate(`/shop/${seller._id}`);
     }
-  }, []);
+  }, [isSellerAuthenticated, seller, isLoading]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
