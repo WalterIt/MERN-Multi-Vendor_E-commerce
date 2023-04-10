@@ -15,15 +15,17 @@ import Layout from "./pages/Layout";
 import ProfilePage from "./pages/ProfilePage";
 import CreateShopPage from "./pages/auth/CreateShopPage";
 import LoginShopPage from "./pages/auth/LoginShopPage";
+import ShopHomePage from "./pages/shop/ShopHomePage";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
+import SellerProtectedRoute from "./SellerProtectedRoute";
 
 axios.defaults.withCredentials = true;
 
 function App() {
   const { isAuthenticated, loading } = useSelector((state) => state.user);
-  const { isSellerAuthenticated, seller } = useSelector(
+  const { isSellerAuthenticated, isLoading } = useSelector(
     (state) => state.seller
   );
   // console.log(isSellerAuthenticated, seller);
@@ -44,8 +46,7 @@ function App() {
             path="/activation/:activation_token"
             element={<ActivationPage />}
           />
-          <Route path="/create-shop" element={<CreateShopPage />} />
-          <Route path="/login-shop" element={<LoginShopPage />} />
+
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
@@ -62,6 +63,19 @@ function App() {
               }
             />
           </Route>
+          {/* SHOP ROUTES  */}
+          <Route path="/create-shop" element={<CreateShopPage />} />
+          <Route path="/login-shop" element={<LoginShopPage />} />
+          <Route
+            path="/shop/:id"
+            element={
+              <SellerProtectedRoute
+                isSellerAuthenticated={isSellerAuthenticated}
+              >
+                <ShopHomePage />
+              </SellerProtectedRoute>
+            }
+          />
         </Routes>
         <ToastContainer
           position="bottom-center"

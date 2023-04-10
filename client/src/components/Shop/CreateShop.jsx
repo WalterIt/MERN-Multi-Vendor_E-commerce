@@ -68,8 +68,8 @@ const CreateShop = () => {
     );
   };
 
-  console.log(description);
-  console.log(address);
+  // console.log(description);
+  // console.log(address);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,7 +94,7 @@ const CreateShop = () => {
           setPassword("");
           setAvatar();
 
-          navigate("/login");
+          navigate("/login-shop");
         }
       })
       .catch((error) => {

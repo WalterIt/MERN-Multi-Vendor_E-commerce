@@ -7,12 +7,16 @@ import { server } from "../../server.js";
 import { toast } from "react-toastify";
 import store from "../../redux/store";
 import { loadSeller } from "../../redux/actions/user";
+import { useSelector } from "react-redux";
 
 const LoginShopPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const { isSellerAuthenticated, seller } = useSelector(
+    (state) => state.seller
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,8 +29,6 @@ const LoginShopPage = () => {
       .then((res) => {
         toast.success("Login Success!");
         store.dispatch(loadSeller());
-        navigate("/shop");
-
         // window.location.reload();
       })
       .catch((err) => {
@@ -34,6 +36,12 @@ const LoginShopPage = () => {
         console.log(err.response?.data);
       });
   };
+
+  useEffect(() => {
+    if (isSellerAuthenticated) {
+      navigate(`/shop/${seller._id}`);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
