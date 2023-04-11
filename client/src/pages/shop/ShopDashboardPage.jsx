@@ -5,11 +5,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const ShopDashboardPage = () => {
-  //   const { seller } = useSelector((state) => state.seller);
-  //   console.log(seller);
-  // const currentPath = window.location.pathname;
   const { pathname } = useLocation();
-  // console.log(pathname);
   const [active, setActive] = useState();
 
   useEffect(() => {

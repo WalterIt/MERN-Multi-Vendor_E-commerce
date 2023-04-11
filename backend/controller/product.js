@@ -11,19 +11,18 @@ const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const { isSellerAuthenticated } = require("../middleware/auth");
 const sendShopToken = require("../utils/ShopToken");
-const Shop = require("../model/shop");
+const Shop = require("../model/shop.js");
 
 router.post(
   "/create-product",
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const shopId = req.body.shopId;
-      const shop = await Shop.findById(shopId);
+      const productData = req.body;
 
+      const shop = await Shop.findById(req.body.shopId);
       if (!shop) {
         return next(new ErrorHandler("Shop Not Found!", 400));
       } else {
-        const productData = req.body;
         productData.shop = shop;
         const product = await Product.create(productData);
         res.status(201).json({

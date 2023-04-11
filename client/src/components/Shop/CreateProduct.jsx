@@ -3,12 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { categoriesData } from "../../static/data";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { toast } from "react-toastify";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../../firebase";
+import { createProduct } from "../../redux/actions/product";
+import { useEffect } from "react";
 
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller);
+  const { success, error } = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [images, setImages] = useState([]);
+  const [imagesUrl, setImagesUrl] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -18,29 +30,51 @@ const CreateProduct = () => {
   const [stock, setStock] = useState();
 
   //create a function handleImagesUpload
-  const handleImagesUpload = (e) => {
-    e.preventDefault();
-    let files = Array.from(e.target.files);
+  const handleImagesUpload = async (e) => {
+    const files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
+    const fileNames = files.map(
+      (file) => `${new Date().getTime()}${file.name}`
+    );
+    const storage = getStorage(app);
+    const storageRefs = fileNames.map((fileName) => ref(storage, fileName));
+    const imagesUrlFirebase = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const snapshot = await uploadBytesResumable(storageRefs[i], files[i]);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      imagesUrlFirebase.push(downloadURL);
+    }
+
+    setImagesUrl(imagesUrlFirebase);
+    // console.log(imagesUrlFirebase);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({
-      type: "CREATE_PRODUCT",
-      payload: {
-        name,
-        description,
-        category,
-        tags,
-        images,
-        originalPrice,
-        discountPrice,
-        stock,
-      },
-    });
-    // navigate("/seller/products");
+    const newForm = {
+      name,
+      description,
+      category,
+      tags,
+      images: imagesUrl,
+      originalPrice,
+      discountPrice,
+      stock,
+      shopId: seller._id,
+    };
+    // console.log(newForm);
+    dispatch(createProduct(newForm));
   };
+
+  useEffect(() => {
+    if (error) toast.error(error);
+    if (success) {
+      toast.success("Product created Successfully!");
+      navigate("/dashboard");
+      // window.location.reload();
+    }
+  }, [dispatch, error, success]);
 
   return (
     <div className="w-[90%] 800px:w-[60%] bg-white shadow h-[90vh] overflow-y-scroll rounded-[4px] p-3  ">
@@ -64,14 +98,15 @@ const CreateProduct = () => {
           <label htmlFor="" className="py-2">
             Description <span className="text-red-500 font-extrabold">*</span>
           </label>
-          <input
-            type="text"
+          <textarea
             name="description"
+            cols="30"
+            rows="5"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mt-2 appearance-none block w-full mb-3 px-3 h-9 border border-gray-300 rounded placeholder-gray-400 focus:outline-none focus:ring-blue-500 sm:text-sm  "
-            placeholder="Enter your Product Description"
-          />
+            required
+            className="appearance-none mb-3 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          ></textarea>
         </div>
         <div>
           <label htmlFor="" className="py-2">
