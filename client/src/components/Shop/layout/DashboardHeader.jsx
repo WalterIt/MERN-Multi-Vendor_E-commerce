@@ -8,7 +8,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
-  console.log(seller);
+  // console.log(seller);
 
   return (
     <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
@@ -53,7 +53,7 @@ const DashboardHeader = () => {
               className="mx-5 cursor-pointer"
             />
           </Link>
-          <Link to={`/shop/${seller?._id}`}>
+          <Link to={`/dashboard-shop/${seller?._id}`}>
             <img
               src="https://firebasestorage.googleapis.com/v0/b/multi-vendor-69526.appspot.com/o/1681074089700apparel6.jpg?alt=media&token=a32636e3-2f04-4fad-aea6-0c994172f0ca"
               alt=""

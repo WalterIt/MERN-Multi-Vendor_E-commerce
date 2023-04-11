@@ -1,5 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
+// TODO: Replace createReducer
+
 const initialState = {
   isAuthenticated: false,
 };

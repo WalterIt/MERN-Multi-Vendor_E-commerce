@@ -17,6 +17,7 @@ import CreateShopPage from "./pages/auth/CreateShopPage";
 import LoginShopPage from "./pages/auth/LoginShopPage";
 import ShopHomePage from "./pages/shop/ShopHomePage";
 import ShopDashboardPage from "./pages/shop/ShopDashboardPage";
+import ShopCreateProduct from "./pages/shop/ShopCreateProduct";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -62,14 +63,7 @@ function App() {
         {/* SHOP ROUTES  */}
         <Route path="/create-shop" element={<CreateShopPage />} />
         <Route path="/login-shop" element={<LoginShopPage />} />
-        <Route
-          path="/shop/:id"
-          element={
-            <SellerProtectedRoute>
-              <ShopHomePage />
-            </SellerProtectedRoute>
-          }
-        />
+
         <Route
           path="/dashboard"
           element={
@@ -77,7 +71,13 @@ function App() {
               <ShopDashboardPage />
             </SellerProtectedRoute>
           }
-        />
+        >
+          <Route path="/dashboard-shop/:id" element={<ShopHomePage />} />
+          <Route
+            path="/dashboard/create-product"
+            element={<ShopCreateProduct />}
+          />
+        </Route>
       </Routes>
       <ToastContainer
         position="bottom-center"
