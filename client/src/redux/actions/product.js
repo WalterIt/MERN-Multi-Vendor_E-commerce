@@ -25,21 +25,46 @@ export const createProduct = (newForm) => async (dispatch) => {
   }
 };
 
-// load Seller
-// export const loadSeller = () => async (dispatch) => {
-//   try {
-//     dispatch({
-//       type: "LoadSellerRequest",
-//     });
-//     const { data } = await axios.get(`${server}/shop/getseller`);
-//     dispatch({
-//       type: "LoadSellerSuccess",
-//       payload: data.seller,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: "LoadSellerFailure",
-//       payload: error.response?.data?.message,
-//     });
-//   }
-// };
+// Get All Products Shop
+export const getAllProductsShop = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllProductsShopRequest",
+    });
+    const { data } = await axios.get(
+      `${server}/product/getproducts-shop/${id}`
+    );
+
+    dispatch({
+      type: "getAllProductsShopSuccess",
+      payload: data?.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAllProductsShopFailure",
+      payload: error.response?.data?.message,
+    });
+  }
+};
+
+// Delete a product of Shop
+export const deleteProductShop = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "deleteProductShopRequest",
+    });
+    const { data } = await axios.delete(
+      `${server}/product/delete-shop-product/${id}`
+    );
+
+    dispatch({
+      type: "deleteProductShopSuccess",
+      payload: data?.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "deleteProductShopFailure",
+      payload: error.response?.data?.message,
+    });
+  }
+};

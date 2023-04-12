@@ -53,7 +53,7 @@ const DashboardHeader = () => {
               className="mx-5 cursor-pointer"
             />
           </Link>
-          <Link to={`/dashboard-shop/${seller?._id}`}>
+          <Link to={`/dashboard/shop/${seller?._id}`}>
             <img
               src="https://firebasestorage.googleapis.com/v0/b/multi-vendor-69526.appspot.com/o/1681074089700apparel6.jpg?alt=media&token=a32636e3-2f04-4fad-aea6-0c994172f0ca"
               alt=""

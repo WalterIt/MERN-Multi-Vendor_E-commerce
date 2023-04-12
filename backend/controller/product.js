@@ -37,25 +37,41 @@ router.post(
   })
 );
 
-// load Shop
+// Get all Products of a Shop
 router.get(
-  "/getseller",
+  "/getproducts-shop/:id",
   isSellerAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      //   console.log(req.seller);
-      const seller = await Shop.findById(req.seller._id);
-
-      if (!seller) {
-        return next(new ErrorHandler("User doesn't exists", 400));
-      }
+      const products = await Product.find({ shopId: req.params.id });
 
       res.status(200).json({
         success: true,
-        seller,
+        products,
       });
     } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 400));
+    }
+  })
+);
+
+// Delete a Product of Shop
+
+router.delete(
+  "/delete-shop-product/:id",
+  isSellerAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const product = await Product.findByIdAndDelete(req.params.id);
+
+      if (!product) return next(new ErrorHandler("Product Not Found!", 500));
+
+      res.status(200).json({
+        success: true,
+        message: "Product Deleted Successfully!",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 400));
     }
   })
 );

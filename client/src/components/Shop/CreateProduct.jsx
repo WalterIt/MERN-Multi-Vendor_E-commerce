@@ -65,16 +65,13 @@ const CreateProduct = () => {
     };
     // console.log(newForm);
     dispatch(createProduct(newForm));
-  };
 
-  useEffect(() => {
     if (error) toast.error(error);
     if (success) {
       toast.success("Product created Successfully!");
       navigate("/dashboard");
-      // window.location.reload();
     }
-  }, [dispatch, error, success]);
+  };
 
   return (
     <div className="w-[90%] 800px:w-[60%] bg-white shadow h-[90vh] overflow-y-scroll rounded-[4px] p-3  ">

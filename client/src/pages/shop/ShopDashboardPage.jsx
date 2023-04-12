@@ -13,6 +13,9 @@ const ShopDashboardPage = () => {
       case "/dashboard":
         setActive(1);
         break;
+      case "/dashboard/products":
+        setActive(3);
+        break;
       case "/dashboard/create-product":
         setActive(4);
         break;
@@ -28,7 +31,7 @@ const ShopDashboardPage = () => {
   return (
     <div>
       <DashboardHeader />
-      <div className="flex justify-between items-center w-full">
+      <div className="flex justify-between  w-full">
         <div className="w-[80px]  800px:w-[270px] ">
           <DashboardSidebar active={active} />
         </div>
