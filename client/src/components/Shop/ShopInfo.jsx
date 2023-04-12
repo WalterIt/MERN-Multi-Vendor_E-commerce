@@ -1,10 +1,28 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../../styles/styles";
+import { useNavigate } from "react-router-dom";
+import server from "../../server";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const ShopInfo = ({ isOwner }) => {
   const { seller } = useSelector((state) => state.seller);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const HandleLogout = () => {};
+  const handleLogout = () => {
+    axios
+      .get(`${server}/shop/logout`)
+      .then((res) => {
+        toast.success(res.data.message);
+        localStorage.clear();
+        navigate("/login-shop");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error.res.data.message);
+      });
+  };
 
   return (
     <div className="">
@@ -56,7 +74,7 @@ const ShopInfo = ({ isOwner }) => {
 
           <div
             className={`${styles.button} !bg-red-600 !w-full !h-[42px] !rounded `}
-            onClick={HandleLogout}
+            onClick={() => handleLogout()}
           >
             <span className="text-white font-semibold tracking-widest">
               Log Out
