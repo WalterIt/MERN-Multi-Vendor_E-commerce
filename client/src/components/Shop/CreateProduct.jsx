@@ -69,7 +69,7 @@ const CreateProduct = () => {
     if (error) toast.error(error);
     if (success) {
       toast.success("Product created Successfully!");
-      navigate("/dashboard");
+      navigate("/dashboard/products");
     }
   };
 
@@ -205,7 +205,7 @@ const CreateProduct = () => {
                 <img
                   key={i}
                   src={URL.createObjectURL(img)}
-                  className="w-[120px] h-[120px] object-cover m-2"
+                  className="w-[120px] h-auto object-cover m-2"
                   alt=""
                 />
               ))}
