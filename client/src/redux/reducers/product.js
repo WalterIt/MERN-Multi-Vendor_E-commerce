@@ -4,8 +4,6 @@ const initialState = {
   isLoading: true,
 };
 
-// TODO: Implement Persistence of Data
-
 export const productReducer = createReducer(initialState, {
   productCreateRequest: (state) => {
     state.isLoading = true;

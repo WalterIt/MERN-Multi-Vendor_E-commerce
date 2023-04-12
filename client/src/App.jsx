@@ -26,7 +26,9 @@ import SellerProtectedRoute from "./routes/SellerProtectedRoute";
 axios.defaults.withCredentials = true;
 
 function App() {
-  const { isAuthenticated, loading } = useSelector((state) => state.user);
+  const { isAuthenticated, loading } = useSelector(
+    (state) => state?.user || {}
+  );
 
   return (
     <BrowserRouter>

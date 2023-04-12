@@ -1,12 +1,8 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-// TODO: Replace createReducer
-
 const initialState = {
   isAuthenticated: false,
 };
-
-// TODO: Implement Persistence of Data
 
 export const userReducer = createReducer(initialState, {
   LoadUserRequest: (state) => {
@@ -17,12 +13,12 @@ export const userReducer = createReducer(initialState, {
     state.loading = false;
     state.user = action.payload;
   },
-  LoadUserFailure: (state, action) => {
-    state.isAuthenticated = false;
+  LoadUserFail: (state, action) => {
     state.loading = false;
-    state.error = action?.payload;
+    state.error = action.payload;
+    state.isAuthenticated = false;
   },
-  ClearErrors: (state) => {
+  clearErrors: (state) => {
     state.error = null;
   },
 });

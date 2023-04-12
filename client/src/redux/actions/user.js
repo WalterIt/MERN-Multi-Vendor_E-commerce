@@ -10,8 +10,10 @@ export const loadUser = () => async (dispatch) => {
     const { data } = await axios.get(`${server}/user/getuser`);
     dispatch({
       type: "LoadUserSuccess",
-      payload: data?.user,
+      payload: data.user,
     });
+
+    // console.log(data?.user);
   } catch (error) {
     dispatch({
       type: "LoadUserFailure",
