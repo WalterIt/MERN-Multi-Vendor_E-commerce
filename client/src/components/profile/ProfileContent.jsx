@@ -22,7 +22,7 @@ const ProfileContent = ({ active }) => {
   };
 
   return (
-    <div className="w-full mt-[15%]">
+    <div className="w-full mt-[3%]">
       {/* / PROFILE PAGE / */}
       {active === 1 && (
         <>
